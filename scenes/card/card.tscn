@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://dc2u3e6vhi63c"]
+
+[ext_resource type="Script" path="res://scenes/card/card.gd" id="1_8rfdp"]
+[ext_resource type="Texture2D" uid="uid://dfohwj78nriex" path="res://assets/images/card.aseprite" id="1_tmwqi"]
+[ext_resource type="Texture2D" uid="uid://7c2wrkfctpyf" path="res://assets/images/cards.aseprite" id="2_wecpd"]
+[ext_resource type="Script" path="res://scenes/debug/parent_lines.gd" id="4_kgr85"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vnko0"]
+size = Vector2(64, 96)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_73rpx"]
+radius = 5.0
+
+[node name="Card" type="Node2D"]
+script = ExtResource("1_8rfdp")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.345098)
+texture_filter = 1
+texture = ExtResource("1_tmwqi")
+
+[node name="CardSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_wecpd")
+hframes = 10
+vframes = 4
+
+[node name="CardArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CardArea2D"]
+shape = SubResource("RectangleShape2D_vnko0")
+
+[node name="OverlapArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OverlapArea2D"]
+shape = SubResource("CircleShape2D_73rpx")
+debug_color = Color(0.807843, 0.160784, 0.921569, 0.419608)
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+script = ExtResource("4_kgr85")
+
+[connection signal="mouse_entered" from="CardArea2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="CardArea2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="area_entered" from="OverlapArea2D" to="." method="_on_overlap_area_2d_area_entered"]
