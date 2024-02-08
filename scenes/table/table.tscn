@@ -1,48 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://y0uhg2ka0nhx"]
 
-[ext_resource type="PackedScene" uid="uid://dc2u3e6vhi63c" path="res://scenes/card/card.tscn" id="3_omxol"]
+[ext_resource type="Script" path="res://scenes/table/table.gd" id="1_2t6i5"]
 [ext_resource type="PackedScene" uid="uid://cotdgx257oxed" path="res://scenes/debug/tweening/tween_debug.tscn" id="3_ybcx8"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Table" type="Node2D"]
+script = ExtResource("1_2t6i5")
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false
 
 [node name="TweenDebug" parent="DebugLayer" node_paths=PackedStringArray("node") instance=ExtResource("3_ybcx8")]
-node = NodePath("../../Card1")
+node = NodePath("")
 metadata/_edit_use_anchors_ = true
-
-[node name="Card1" parent="." instance=ExtResource("3_omxol")]
-position = Vector2(51, 64)
-suit = 1
-
-[node name="Card2" parent="Card1" instance=ExtResource("3_omxol")]
-position = Vector2(8, 16)
-suit = 2
-
-[node name="Card3" parent="Card1/Card2" instance=ExtResource("3_omxol")]
-position = Vector2(8, 16)
-suit = 3
-
-[node name="Card4" parent="Card1/Card2/Card3" instance=ExtResource("3_omxol")]
-position = Vector2(8, 16)
-suit = 1
-rank = 1
-
-[node name="Card5" parent="Card1/Card2/Card3/Card4" instance=ExtResource("3_omxol")]
-position = Vector2(8, 16)
-suit = 2
-rank = 2
-
-[node name="Card6" parent="Card1/Card2/Card3/Card4/Card5" instance=ExtResource("3_omxol")]
-position = Vector2(135, 68)
-suit = 3
-rank = 3
-
-[node name="CardX" parent="." instance=ExtResource("3_omxol")]
-position = Vector2(340, 104)
-suit = 3
-
-[node name="CardX2" parent="CardX" instance=ExtResource("3_omxol")]
-position = Vector2(191, 57)
-suit = 3

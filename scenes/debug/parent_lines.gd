@@ -8,7 +8,6 @@ var font_size = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	prints("line2d from", get_parent().name, "reporting for duty")
 	pass # Replace with function body.
 
 
@@ -21,9 +20,9 @@ func _draw():
 	var parent = get_parent()
 	var gparent = parent.get_parent()
 	if parent is Card:
-		var vec_parent = to_local(parent.global_position)
+		var vec_parent = to_local(parent.global_position) + Vector2(-26, -40)
 		if gparent is Card:
-			var vec_gparent = to_local(gparent.global_position)
+			var vec_gparent = to_local(gparent.global_position) + Vector2(-26, -40)
 			draw_line(vec_parent, vec_gparent, Color.LIME_GREEN, true)
 			
 			draw_circle(vec_parent, 4, Color.SEA_GREEN)

@@ -1,28 +1,41 @@
-[gd_scene load_steps=6 format=3 uid="uid://dc2u3e6vhi63c"]
+[gd_scene load_steps=7 format=3 uid="uid://75s83emvu2ok"]
 
-[ext_resource type="Script" path="res://scenes/card/card.gd" id="1_8rfdp"]
-[ext_resource type="Texture2D" uid="uid://7c2wrkfctpyf" path="res://assets/images/cards.aseprite" id="2_wecpd"]
-[ext_resource type="Script" path="res://scenes/debug/parent_lines.gd" id="4_kgr85"]
+[ext_resource type="Texture2D" uid="uid://dfohwj78nriex" path="res://assets/images/card.aseprite" id="1_fuioj"]
+[ext_resource type="Texture2D" uid="uid://7c2wrkfctpyf" path="res://assets/images/cards.aseprite" id="2_fwous"]
+[ext_resource type="Script" path="res://scenes/debug/parent_lines.gd" id="3_2hm85"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vnko0"]
 size = Vector2(64, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8n6y"]
+size = Vector2(64, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_73rpx"]
 radius = 5.0
 
 [node name="Card" type="Node2D"]
-script = ExtResource("1_8rfdp")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.345098)
+texture_filter = 1
+texture = ExtResource("1_fuioj")
 
 [node name="CardSprite" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_wecpd")
+texture = ExtResource("2_fwous")
 hframes = 10
 vframes = 4
 
 [node name="CardArea2D" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CardArea2D"]
+[node name="FullCollisionShape" type="CollisionShape2D" parent="CardArea2D"]
 shape = SubResource("RectangleShape2D_vnko0")
+
+[node name="StackedCollisionShape" type="CollisionShape2D" parent="CardArea2D"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_v8n6y")
+disabled = true
+debug_color = Color(0.117647, 0.635294, 0.352941, 0.419608)
 
 [node name="OverlapArea2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -31,12 +44,10 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_73rpx")
 debug_color = Color(0.807843, 0.160784, 0.921569, 0.419608)
 
-[node name="ParentLine" type="Line2D" parent="."]
-visible = false
-script = ExtResource("4_kgr85")
+[node name="Line2D" type="Line2D" parent="."]
+script = ExtResource("3_2hm85")
 
 [node name="LocalPos" type="Label" parent="."]
-visible = false
 offset_left = -26.0
 offset_top = 32.0
 offset_right = 14.0
@@ -45,18 +56,12 @@ theme_override_font_sizes/font_size = 9
 text = "10,20"
 
 [node name="GlobalPos" type="Label" parent="."]
-visible = false
 offset_left = -26.0
 offset_top = 22.0
 offset_right = 14.0
 offset_bottom = 38.0
 theme_override_font_sizes/font_size = 9
 text = "10,20"
-
-[node name="ShadowGroup" type="CanvasGroup" parent="."]
-visible = false
-self_modulate = Color(0, 0, 0, 0.368627)
-show_behind_parent = true
 
 [connection signal="mouse_entered" from="CardArea2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="CardArea2D" to="." method="_on_area_2d_mouse_exited"]
