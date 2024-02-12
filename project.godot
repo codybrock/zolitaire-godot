@@ -15,16 +15,26 @@ run/main_scene="res://scenes/table/table.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://art/icon.png"
 
+[autoload]
+
+Global="*res://scenes/global.gd"
+
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/initial_position_type=2
 window/size/always_on_top=true
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
+
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
 
 [editor_plugins]
 

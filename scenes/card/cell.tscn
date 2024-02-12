@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://jb0elkaudb3y"]
+
+[ext_resource type="Script" path="res://scenes/card/cell.gd" id="1_q335c"]
+[ext_resource type="Texture2D" uid="uid://7c2wrkfctpyf" path="res://assets/images/cards.aseprite" id="2_20umn"]
+
+[node name="Cell" type="Node2D"]
+script = ExtResource("1_q335c")
+
+[node name="CellSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_20umn")
+hframes = 10
+vframes = 4
+frame = 5

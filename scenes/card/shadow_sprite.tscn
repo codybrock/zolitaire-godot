@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://7c2wrkfctpyf" path="res://assets/images/cards.aseprite" id="1_0qv6n"]
 
 [node name="ShadowSprite" type="Sprite2D"]
+modulate = Color(0, 0, 0, 1)
+clip_children = 2
 texture = ExtResource("1_0qv6n")
 hframes = 10
 vframes = 4

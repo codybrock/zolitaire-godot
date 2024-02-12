@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://y0uhg2ka0nhx"]
+[gd_scene load_steps=5 format=3 uid="uid://y0uhg2ka0nhx"]
 
 [ext_resource type="Script" path="res://scenes/table/table.gd" id="1_2t6i5"]
+[ext_resource type="Script" path="res://scenes/debug/shadow_debug.gd" id="3_1eccx"]
 [ext_resource type="PackedScene" uid="uid://cotdgx257oxed" path="res://scenes/debug/tweening/tween_debug.tscn" id="3_ybcx8"]
+[ext_resource type="PackedScene" uid="uid://ct38movre7adt" path="res://scenes/card/deck.tscn" id="4_doqgn"]
 
 [node name="Table" type="Node2D"]
 script = ExtResource("1_2t6i5")
@@ -9,6 +11,33 @@ script = ExtResource("1_2t6i5")
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="TweenDebug" parent="DebugLayer" node_paths=PackedStringArray("node") instance=ExtResource("3_ybcx8")]
-node = NodePath("")
+[node name="TweenDebug" parent="DebugLayer" instance=ExtResource("3_ybcx8")]
+visible = false
 metadata/_edit_use_anchors_ = true
+
+[node name="ShadowDebug" type="Control" parent="DebugLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_1eccx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugLayer/ShadowDebug"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 62.0
+offset_bottom = 11.5
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="DebugLayer/ShadowDebug/VBoxContainer"]
+layout_mode = 2
+text = "Debug"
+
+[node name="Deck" parent="." instance=ExtResource("4_doqgn")]
+position = Vector2(297, -160)
