@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://jb0elkaudb3y"]
+[gd_scene load_steps=4 format=3 uid="uid://jb0elkaudb3y"]
 
 [ext_resource type="Script" path="res://scenes/card/cell.gd" id="1_q335c"]
 [ext_resource type="Texture2D" uid="uid://7c2wrkfctpyf" path="res://assets/images/cards.aseprite" id="2_20umn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shc5s"]
+size = Vector2(64, 96)
 
 [node name="Cell" type="Node2D"]
 script = ExtResource("1_q335c")
@@ -12,3 +15,8 @@ texture = ExtResource("2_20umn")
 hframes = 10
 vframes = 4
 frame = 5
+
+[node name="CellArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CellArea2D"]
+shape = SubResource("RectangleShape2D_shc5s")

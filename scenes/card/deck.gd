@@ -1,33 +1,20 @@
 class_name Deck extends Node2D
 
 # Called when the node enters the scene tree for the first time.
-# func _ready():
-# 	for suit in range(1, 4):
-# 		for rank in range(0, 10):
-# 			var card = Global.CARD_SCENE.instantiate()
-# 			card.set_card(suit, rank)
-# 			add_child(card)
-
-# 	var card = Global.CARD_SCENE.instantiate()
-# 	card.set_card(0, 0)
-# 	add_child(card)
+func _ready():
+	for suit in range(1, 4):
+		for rank in range(0, 10):
+			var card = Global.CARD_SCENE.instantiate()
+			add_child(card)
+			card.set_card(suit, rank)
+	var card = Global.CARD_SCENE.instantiate()
+	add_child(card)
+	card.set_card(0, 0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
-
-# func init():
-# 	for suit in range(1, 4):
-# 		for rank in range(0, 10):
-# 			var card = Global.CARD_SCENE.instantiate()
-# 			card.set_card(suit, rank)
-# 			add_child(card)
-
-# 	var card = Global.CARD_SCENE.instantiate()
-# 	card.set_card(0, 0)
-# 	add_child(card)
 
 
 func shuffle():

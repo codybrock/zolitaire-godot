@@ -60,8 +60,27 @@ offset_bottom = 38.0
 theme_override_font_sizes/font_size = 9
 text = "10,20"
 
+[node name="Parent" type="Label" parent="."]
+texture_filter = 3
+offset_left = -13.0
+offset_top = -47.0
+offset_right = 27.0
+offset_bottom = -34.0
+theme_override_colors/font_color = Color(0.894118, 0, 0, 1)
+theme_override_font_sizes/font_size = 5
+text = "parent"
+
+[node name="StackBase" type="Label" parent="."]
+texture_filter = 3
+offset_left = -13.0
+offset_top = -41.0
+offset_right = 27.0
+offset_bottom = -28.0
+theme_override_colors/font_color = Color(0.737255, 0, 0.847059, 1)
+theme_override_font_sizes/font_size = 5
+text = "base"
+
 [node name="ValidStack" type="ColorRect" parent="."]
-visible = false
 offset_left = 20.0
 offset_top = -44.0
 offset_right = 28.0

@@ -18,10 +18,9 @@ const SHADOW_SCENE = preload("res://scenes/card/shadow_sprite.tscn")
 
 var mouse_over: bool = false
 var floating: bool = false
-var stacked_card: Card = null
 var shadow_active: bool = false
-
-var glow_card: Card = null
+var stacked_card: Card = null
+var stack_base = null
 
 
 # Called when the node enters the scene tree for the first time.
@@ -29,9 +28,6 @@ func _ready():
 	add_to_group(CARD_GROUP)
 	valid_stack_indicator.color = Color.GREEN
 	set_card(0, 0)
-	#
-	#card_sprite.frame_coords.x = rank
-	#card_sprite.frame_coords.y = suit
 
 
 func set_card(card_rank, card_suit):
@@ -45,6 +41,11 @@ func set_card(card_rank, card_suit):
 func _process(delta):
 	$LocalPos.text = str(position.x, ",", position.y)
 	$GlobalPos.text = str(global_position.x, ",", global_position.y)
+	$Parent.text = get_parent().name
+	if stack_base:
+		$StackBase.text = stack_base.name
+	else:
+		$StackBase.text = "None"
 	#if mouse_over:
 	#card_sprite.modulate = Color(1.25, 1.25, 1.25)
 	#else:
@@ -62,50 +63,6 @@ func _on_area_2d_mouse_entered():
 
 func _on_area_2d_mouse_exited():
 	mouse_over = false
-
-
-func _unhandled_input(event):
-	# card currently held?
-	if floating:
-		input_floating(event)
-	# Mouse interactions
-	#elif mouse_over:
-	## Left click, start float
-	##get_top_card()
-	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-	#if event.is_pressed() and not floating:
-	##if not recursive_check_stacked():
-	#while get_parent() is Card:
-	#reparent(get_parent().get_parent())
-	#start_shadows()
-	#start_floating()
-
-
-func input_floating(event):
-	if get_parent() is Card:
-		return
-	#var over_areas = overlap_area.get_overlapping_areas()
-	#print(over_areas)
-	#for area in over_areas:
-	#if area.get_parent() != self:
-	#if area.get_parent().can_stack(self):
-	#area.get_parent().card_sprite.self_modulate = Color.GOLD
-	#else:
-	#area.get_parent().card_sprite.self_modulate = Color.RED
-
-	# drag along with mouse
-	if event is InputEventMouseMotion:
-		position += event.relative
-	# drop, end floating and animate descent
-	if (
-		event is InputEventMouseButton
-		and event.button_index == MOUSE_BUTTON_LEFT
-		and event.is_released()
-	):
-		stop_floating()
-		var top_card = get_top_card_overlap()
-		if top_card and not top_card.stacked_card:
-			top_card.stack_card(self)
 
 
 func get_top_card_overlap():
@@ -133,7 +90,7 @@ func start_floating(delay = 0.0):
 	get_parent().move_child(self, -1)
 	#origin = get_parent()
 
-	start_shadows()
+	#start_shadows()
 	var tween = create_tween()
 	tween.set_parallel()
 	tween.set_trans(Tween.TRANS_BACK)
@@ -160,6 +117,7 @@ func stop_floating(revert: bool = false):
 	floating = false
 
 
+# check recursively down to see if stack honors stacking rules
 func is_valid_stacked():
 	if not stacked_card:
 		return true
@@ -175,23 +133,25 @@ func stacked_count():
 	return stacked_card.stacked_count() + 1
 
 
-func can_stack(card: Card) -> bool:
-	# rules:
-	#  not already stacked
-	#  different suit
-	#  rank 1 lower
-	#  not "ace"
-	if not stacked_card:
-		if card.suit != suit:
-			if card.rank == rank - 1 and card.rank != 0:
-				return true
-	return false
+func allow_stack(card: Card):
+	if stacked_card:
+		return false
+	elif stack_base:
+		return stack_base.allow_stack(card)
+	elif card.suit != suit and card.rank == rank - 1 and card.rank != 0:
+		return true
+	else:
+		return false
 
 
 func stack_card(card: Card):
 	stacked_card = card
 	card.reparent(self)
-	#stacked_card.position = STACK_OFFSET_VECTOR
+
+	if stack_base:
+		stacked_card.stack_base = stack_base
+	else:
+		stacked_card.stack_base = self
 
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC)
@@ -199,12 +159,23 @@ func stack_card(card: Card):
 	tween.tween_property(card, "position", STACK_OFFSET_VECTOR, .05)
 
 
-func unstack_card() -> Card:
+func unstack_card():
 	var card = stacked_card
 	stacked_card = null
-	while card.get_parent() is Card:
+	while !(card.get_parent() is Table):
 		card.reparent(card.get_parent().get_parent())
-	return card
+	card.stack_base = null
+
+
+func unstack():
+	var parent = get_parent()
+	if parent is Table:
+		return
+	if parent.stacked_card and parent.stacked_card == self:
+		get_parent().unstack_card()
+	else:
+		#get_tree().quit()
+		printerr("tried to unstack wrong card")
 
 
 func start_shadows():
